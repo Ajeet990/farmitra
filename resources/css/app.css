@@ -1,3 +1,11 @@
+@import url("https://use.typekit.net/jdk8cpc.css");
+
+@import url('../../node_modules/apexcharts/dist/apexcharts.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    font-family: "source-sans-pro", sans-serif;
+}

@@ -1,7 +1,7 @@
 import './bootstrap';
-
+import 'preline';
 import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
+import ApexCharts from 'apexcharts';
+import {HSOverlay} from 'preline/preline';
 
 Alpine.start();
