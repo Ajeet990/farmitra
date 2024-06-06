@@ -26,6 +26,7 @@ class AddSubCategory extends Component
     public function submit()
     {
         $this->validate();
+        
         $imagePath = null;
         if ($this->icon) {
             $imagePath = $this->icon->store('sub_category');
@@ -37,6 +38,8 @@ class AddSubCategory extends Component
             'icon' => $imagePath,
             'status' => $this->status,
         ]);
+        $this->dispatch('closeDrawer');
+        $this->dispatch('updatedSubCategory');
     }
     public function render()
     {

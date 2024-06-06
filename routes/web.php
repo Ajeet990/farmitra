@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\AddAdminProduct;
 use App\Livewire\AdminCategory;
+use App\Livewire\AdminProductList;
 use App\Livewire\AdminSubCategory;
 use App\Livewire\Brands;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +51,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('brand', Brands::class)->name('admin_brand');
     Route::get('category', AdminCategory::class)->name('admin_category');
     Route::get('sub_category', AdminSubCategory::class)->name('admin_sub_category');
+    Route::get('product', AdminProductList::class)->name('admin_product');
+    Route::get('product/add', AddAdminProduct::class)->name('add_admin_product');
 });
 
 require __DIR__ . '/auth.php';

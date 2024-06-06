@@ -37,7 +37,7 @@ export default {
                 bg_dark: "#2f3349",
             },
             boxShadow: {
-                primary: "0 .25rem 1.125rem rgba(75, 70, 92, .1)",
+                main: "0 .25rem 1.125rem rgba(75, 70, 92, .1)",
             },
         },
     },

@@ -5,3 +5,4 @@ import ApexCharts from 'apexcharts';
 import {HSOverlay} from 'preline/preline';
 
 Alpine.start();
+
