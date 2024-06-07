@@ -6,6 +6,8 @@ use App\Livewire\AdminCategory;
 use App\Livewire\AdminProductList;
 use App\Livewire\AdminSubCategory;
 use App\Livewire\Brands;
+use App\Livewire\DeliveryBoysList;
+use App\Livewire\EditAdminProduct;
 use Illuminate\Support\Facades\Route;
 use Webklex\IMAP\Facades\Client;
 
@@ -53,6 +55,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('sub_category', AdminSubCategory::class)->name('admin_sub_category');
     Route::get('product', AdminProductList::class)->name('admin_product');
     Route::get('product/add', AddAdminProduct::class)->name('add_admin_product');
+    Route::get('product/edit/{id}', EditAdminProduct::class)->name('edit_admin_product');
+    // Delivery Boys
+    Route::get('delivery', DeliveryBoysList::class)->name('delivery_boys_list');
 });
 
 require __DIR__ . '/auth.php';

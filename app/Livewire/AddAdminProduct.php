@@ -40,9 +40,21 @@ class AddAdminProduct extends Component
         'images' => 'required',
         'brand_id' => 'required',
         'category_id' => 'required',
+        'variants' => 'required|array|min:1',
+        'variants.*.price' => 'required|numeric',
+        'variants.*.variant_name' => 'required',
+        'variants.*.sku' => 'required',
+        'variants.*.offer_price' => 'required|numeric',
+        'variants.*.stock' => 'required|numeric',
+
+
 
 
     ];
+    protected $messages = [
+        'variants' => 'Minimum One Variant Is Required',
+    ];
+
 
     public function addVariant()
     {
@@ -55,6 +67,7 @@ class AddAdminProduct extends Component
         ];
     }
 
+
     public function removeVariant($index)
     {
         if ($index > 0) {
@@ -63,6 +76,7 @@ class AddAdminProduct extends Component
             $this->variants = array_values($this->variants); // Re-index the array
         }
     }
+
     public function submit()
     {
         $this->validate();

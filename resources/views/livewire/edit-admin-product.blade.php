@@ -12,8 +12,8 @@
                 <div class="mt-4">
                     <label for="" class="dark:text-gray-300">Product Name</label>
                     <input wire:model.live='name' type="text"
-                        class="w-full mt-2 rounded-md bg-transparent dark:placeholder:text-gray-300" name="" id=""
-                        placeholder="Enter Product Name">
+                        class="w-full mt-2 rounded-md bg-transparent dark:placeholder:text-gray-300 dark:text-white"
+                        name="" id="" placeholder="Enter Product Name">
                     @error('name')
                     <spa class="text-red-600 mt-1">{{$message}}</spa>
                     @enderror
@@ -25,8 +25,8 @@
                     <label for="" class="dark:text-gray-300 m">Product Details</label>
                     <div id="" wire:ignore class="mt-3 w-full text-wrap">
 
-                        <textarea name="" id="summernote" cols="30" rows="10" class="text-wrap  max-w-full"
-                            wire:model.live='product_details'>{!!
+                        <textarea name="" id="summernote" cols="30" rows="10"
+                            class="text-wrap dark:text-white  max-w-full" wire:model.live='product_details'>{!!
                             $product_details !!}</textarea>
 
                     </div>
@@ -35,7 +35,6 @@
 
             </div>
 
-          
             <div class="bg-white shadow-main mt-10 dark:bg-bg_dark rounded-md  h-max p-5">
                 <h3 class="font-medium text-[19px] text-stone-700 dark:text-gray-100">Variants</h3>
                 @error('variants')
@@ -57,7 +56,8 @@
                     </div>
                     <div>
                         <label class="dark:text-gray-300">SKU (Stock keeping unit)</label>
-                        <input wire:model.live="variants.{{ $index }}.sku" type="text"
+                        <input wire:model.live="variants.{{ $index }}.sku" type="text" @if($variant['disable_sku'])
+                            disabled @endif
                             class="w-full mt-2 rounded-md bg-transparent dark:text-white dark:placeholder:text-gray-300"
                             placeholder="Enter SKU ">
                         @error('variants.' . $index . '.sku')
@@ -95,19 +95,6 @@
                         <div class="text-red-500">{{ $message }}</div>
                         @enderror
                     </div>
-                    @if ($index>0)
-                    <div class="mt-4">
-                        <button type="button" wire:click="removeVariant({{ $index }})"
-                            class="bg-red-500 text-white px-4 py-2 rounded-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                            </svg>
-
-                        </button>
-                    </div>
-                    @endif
 
                 </div>
                 @endforeach
@@ -120,7 +107,7 @@
             </div>
         </div>
         <div>
-            <div class=" bg-white dark:bg-bg_dark shadow-main rounded-md  h-max p-5">
+            <div class=" bg-white dark:bg-bg_dark shadow-main rounded-md  h-max p-5" wire:ignore.self>
                 <h3 class="font-medium text-[19px] text-stone-700 dark:text-gray-100">Organize</h3>
                 <div class="mt-4">
                     <label for="" class="dark:text-gray-300">Select Brand</label>
@@ -128,7 +115,8 @@
                         wire:model.live='brand_id'>
                         <option value="" class="dark:bg-black dark:text-white">Select brand</option>
                         @foreach ($brands as $brand)
-                        <option value="{{$brand->id}}" class="dark:bg-black dark:text-white">{{$brand->name}}</option>
+                        <option key='{{$brand->name}}' value="{{$brand->id}}" class="dark:bg-black dark:text-white">
+                            {{$brand->name}}</option>
 
                         @endforeach
                     </select>
@@ -150,13 +138,14 @@
                     <spa class="text-red-600 mt-1">{{$message}}</spa>
                     @enderror
                 </div>
-                <div class="mt-4">
+                <div class="mt-4" wire:ingore.self>
                     <label for="" class="dark:text-gray-300">Select Sub Category</label>
                     <select name="" id="" class="w-full mt-2 rounded-md bg-transparent dark:text-white"
                         wire:model.live="subcategory_id">
                         <option value="" class="dark:bg-black dark:text-white">Select Sub Category</option>
                         @foreach ($subcategories as $subCat)
-                        <option value="{{$subCat->id}}" class="dark:bg-black dark:text-white">{{$subCat->name}}</option>
+                        <option key='da -{{-$subCat->id}}' value="{{$subCat->id}}"
+                            class="dark:bg-black dark:text-white">{{$subCat->name}}</option>
 
                         @endforeach
                     </select>
@@ -192,6 +181,29 @@
                     @error('images')
                     <spa class="text-red-600 mt-1">{{$message}}</spa>
                     @enderror
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-3 mt-7  p-3">
+                    @if (count($imagesPath)>0)
+                    @foreach ($imagesPath as $img )
+                    <div class="group relative ">
+                        <img src="{{ asset($img->image) }}" alt="{{$img->id}}"
+                            class="size-20 mx-auto object-contain group-hover:blur-md duration-150">
+                            @if($index > 0)
+
+                        <button wire:confirm = 'Are You Sure Want To Delete Image' title="Delete image" wire:click="deleteImage({{$img->id}})"
+                            class="absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 group-hover:block">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-- text-red-500 group-hover:size-8 duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+
+                        </button>
+                        @endif
+                    </div>
+                    @endforeach
+                    @endif
                 </div>
 
 

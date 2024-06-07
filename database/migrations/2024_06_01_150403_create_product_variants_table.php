@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->string('name');
             $table->string('sku')->unique();
-            $table->decimal('price', 10, 2);
-            $table->decimal('offer_price', 10, 2);
-            $table->integer('stock')->default(0);
+            $table->decimal('price', 10, 2)->default(0);
+            $table->decimal('offer_price', 10, 2)->default(0);
+            $table->integer('stock')->default(0)->default(0);
             $table->boolean('is_default')->default(false);
             $table->timestamps();
         });

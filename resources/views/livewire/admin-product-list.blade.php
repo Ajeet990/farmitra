@@ -3,6 +3,44 @@
         <!-- Card -->
         <div class="flex flex-col ">
             <div class="-m-1.5 overflow-x-auto">
+                @if (session()->has('success'))
+                <div id="dismiss-alert"
+                    class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-teal-50 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
+                    role="alert">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z">
+                                </path>
+                                <path d="m9 12 2 2 4-4"></path>
+                            </svg>
+                        </div>
+                        <div class="ms-2">
+                            <div class="text-sm font-medium">
+                                {{ session('success') }}
+
+                            </div>
+                        </div>
+                        <div class="ps-3 ms-auto">
+                            <div class="-mx-1.5 -my-1.5">
+                                <button type="button"
+                                    class="inline-flex bg-teal-50 rounded-lg p-1.5 text-teal-500 hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-50 focus:ring-teal-600 dark:bg-transparent dark:hover:bg-teal-800/50 dark:text-teal-600"
+                                    data-hs-remove-element="#dismiss-alert">
+                                    <span class="sr-only">Dismiss</span>
+                                    <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 <h2
                     class="font-semibold text-2xl   text-slate-700 dark:text-slate-100 md:py-4 py-1 text-center md:pr-40">
                     Product List </h2>
@@ -67,7 +105,31 @@
                         <table class="min-w-full divide-y divide-gray-200 dark:bg-bg_dark">
                             <thead class="bg-gray-50 dark:bg-neutral-800">
                                 <tr>
+                                    <th scope="col" class="px-2 py-3 text-start">
+                                        <div class="flex items-center gap-x-2">
+                                            <span
+                                                class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
+                                                ID
+                                            </span>
+                                        </div>
+                                    </th>
                                     <th scope="col" class="px-6 py-3 text-start">
+                                        <div class="flex items-center gap-x-2">
+                                            <span
+                                                class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
+                                                PRODUCT
+                                            </span>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="pr-6 py-3 text-start">
+                                        <div class="flex items-center gap-x-2">
+                                            <span
+                                                class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
+                                                CATEGORY
+                                            </span>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="pr-6 py-3 text-start">
                                         <div class="flex items-center gap-x-2">
                                             <span
                                                 class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
@@ -78,22 +140,23 @@
 
 
 
-                                    <th scope="col" class="px-6 py-3 text-start">
+
+
+
+
+                                    <th scope="col" class="pr-6 py-3 text-start">
                                         <div class="flex items-center gap-x-2">
                                             <span
                                                 class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
-                                                Description
+                                                VARIENTS
                                             </span>
                                         </div>
                                     </th>
-
-
-
                                     <th scope="col" class="px-6 py-3 text-start">
                                         <div class="flex items-center gap-x-2">
                                             <span
                                                 class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-neutral-200">
-                                                Status
+                                                STATUS
                                             </span>
                                         </div>
                                     </th>
@@ -108,36 +171,58 @@
                                 </tr>
                             </thead>
 
-                            {{-- <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-                                @foreach ($brands as $brand)
+                            <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+                                @foreach ($products as $item)
                                 <tr class="bg-white hover:bg-gray-50 dark:bg-neutral-900 dark:hover:bg-neutral-800">
-                                    <td class="size-px whitespace-nowrap align-top">
+                                    <td class="  dark:text-gray-100">
+                                        <span
+                                            class="block  px-2 text-base font-semibold text-primary dark:text-neutral-200">
+                                            # {{$item->id}}
+                                        </span>
+                                    </td>
+                                    <td class=" whitespace-nowrap align-top">
 
-                                        <div class="flex items-center gap-x-4 p-5">
+                                        <div class="flex items-center gap-x-4 py-2 px-3">
 
 
-                                            @if ($brand->image)
-
+                                            @if ($item->images->isNotEmpty())
                                             <img class="flex-shrink-0 size-[48px] object-contain rounded-lg"
-                                                src="{{asset($brand->image) }}" alt="Image Description">
-
+                                                src="{{asset($item->images->first()->image) }}" alt="{{$item->name}}">
+                                            @else
+                                            <img src="" class="flex-shrink-0 size-[48px] object-contain rounded-lg"
+                                                alt="{{$item->name}}">
                                             @endif
+
                                             <div>
                                                 <span
                                                     class="block text-md capitalize font-medium text-gray-800 dark:text-neutral-200">
-                                                    {{$brand->name}}
+                                                    {{$item->name}}
                                                 </span>
                                             </div>
                                         </div>
                                     </td>
+                                    <td class="  dark:text-gray-100">
+                                        <div class="pr-6 py-3">
+                                            <span
+                                                class="block text-sm font-semibold text-gray-700 dark:text-neutral-200">{{$item->category->name}}</span>
+                                            <span
+                                                class="block text-sm text-gray-500 dark:text-neutral-500">{{$item->subcategory->name}}</span>
+                                        </div>
+                                    </td>
+                                    <td class="  dark:text-gray-100">
+                                        <span class="block text-sm font-semibold text-gray-700 dark:text-neutral-200">
+                                            {{$item->brand->name}}
+                                        </span>
+                                    </td>
 
-                                    <td class=" w-72 min-w-72 dark:text-gray-100">
-                                        {{$brand->description}}
+                                    <td class=" font-medium  dark:text-gray-100">
+                                        <span class="text-purple-500"> {{$item->variants->count()}}
+                                        </span>
                                     </td>
 
                                     <td class="size-px whitespace-nowrap align-top">
                                         <button class="block p-6">
-                                            @if ($brand->status)
+                                            @if ($item->is_active)
                                             <span
                                                 class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium bg-teal-100 text-teal-800 rounded-full dark:bg-teal-500/10 dark:text-teal-500">
                                                 <svg class="size-2.5" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -145,7 +230,7 @@
                                                     <path
                                                         d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                                                 </svg>
-                                                Published
+                                                Active
                                             </span>
                                             @else
                                             <span
@@ -156,23 +241,23 @@
                                                         d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                                                 </svg>
 
-                                                UnPublished
+                                                InActive
                                             </span>
                                             @endif
                                         </button>
                                     </td>
                                     <td class="size-px whitespace-nowrap ">
-                                        <button
-                                            wire:click="$dispatch('openDrawer',{event:{component:'edit-brand',params:{id:{{$brand->id}}}}})">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor"
-                                                class="size-5 text-green-800 dark:text-teal-500">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                            </svg>
+                                        <a href="{{ route('edit_admin_product', ['id'=>$item->id]) }}">
+                                            <button>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5 text-green-800 dark:text-teal-500">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                </svg>
 
-                                        </button>
-                                        <button wire:click="delete({{$brand->id}})"
+                                            </button></a>
+                                        <button wire:click="delete({{$item->id}})"
                                             wire:confirm='Are you Sure Want to Delete'>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor"
@@ -191,8 +276,11 @@
 
 
 
-                            </tbody> --}}
+                            </tbody>
                         </table>
+                        <div class="p-3">
+                            {{$products->links()}}
+                        </div>
 
 
 
