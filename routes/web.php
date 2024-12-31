@@ -1,13 +1,21 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Livewire\AboutPage;
 use App\Livewire\AddAdminProduct;
+use App\Livewire\AddDeliveryBoys;
 use App\Livewire\AdminCategory;
 use App\Livewire\AdminProductList;
 use App\Livewire\AdminSubCategory;
 use App\Livewire\Brands;
+use App\Livewire\ContactUsPage;
 use App\Livewire\DeliveryBoysList;
+use App\Livewire\DownloadAppPage;
 use App\Livewire\EditAdminProduct;
+use App\Livewire\FeaturesPage;
+use App\Livewire\PrivacyPolicy;
+use App\Livewire\ReviewsPage;
+use App\Livewire\Terms;
 use Illuminate\Support\Facades\Route;
 use Webklex\IMAP\Facades\Client;
 
@@ -37,7 +45,16 @@ Route::get('get_mail', function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('index');
+
+Route::get('/about', AboutPage::class)->name('about');
+Route::get('/features', FeaturesPage::class)->name('features');
+Route::get('/reviews', ReviewsPage::class)->name('reviews');
+Route::get('/contact-us', ContactUsPage::class)->name('contact');
+Route::get('/privacy-policy', PrivacyPolicy::class)->name('privacy_policy');
+Route::get('/terms', Terms::class)->name('terms');
+Route::get('/download', DownloadAppPage::class)->name('download');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -58,6 +75,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('product/edit/{id}', EditAdminProduct::class)->name('edit_admin_product');
     // Delivery Boys
     Route::get('delivery', DeliveryBoysList::class)->name('delivery_boys_list');
+    Route::get('delivery/add', AddDeliveryBoys::class)->name('add_delivery_boys');
 });
 
 require __DIR__ . '/auth.php';

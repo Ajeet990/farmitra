@@ -35,6 +35,7 @@ export default {
                 bg_light: "#f8f7fa",
                 bg_dark_main: "#25293c",
                 bg_dark: "#2f3349",
+                home: "#31A05F",
             },
             boxShadow: {
                 main: "0 .25rem 1.125rem rgba(75, 70, 92, .1)",
