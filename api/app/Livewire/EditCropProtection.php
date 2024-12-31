@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
+
+class EditCropProtection extends Component
+{
+    use WithFileUploads,Toast;
+    public $crop_category;
+    public $crop_sub_category;
+    public $title;
+    public $banner;  // Notice `*` syntax for validate each file
+    public array $banners = [];
+    public $content;
+    public $audio;
+    public $video;
+    public $crop_protection_id;
+    public $existingBanner;
+    protected $listeners = ['contentUpdated'];
+    public function contentUpdated($content)
+    {
+        $this->content = $content;
+    }
+    protected $rules=[
+        'crop_category' => 'required|exists:farmitra_crops,id',
+        'crop_sub_category' => 'required|exists:sub_crops,id',
+        'title'=>'required',
+        'banner'=>'nullable|image|max:2048',
+        'content'=>'required',
+    ];
+    
+
+    public function mount($crop_protection_id){
+        $this->crop_protection_id=$crop_protection_id;
+        $protection= \App\Models\CropProtection::find($crop_protection_id);
+        $category = \App\Models\SubCrop::find($protection->crop_id);
+        $this->crop_category = $category->farmitra_crop_id;
+        $this->title=$protection->title;
+        $this->crop_sub_category=$protection->crop_id;
+        $this->audio=$protection->audio;
+        $this->video=$protection->video;
+        $this->content=$protection->content;
+        $this->existingBanner=$protection->banner;
+    }
+
+    public function save(){
+        $this->validate();
+        $path = $this->banner ? $this->banner->store('banners', 'public') : $this->existingBanner;
+        $crop_protection= \App\Models\CropProtection::find($this->crop_protection_id);
+        $crop_protection->crop_id=$this->crop_sub_category;
+        $crop_protection->title=$this->title;
+        $crop_protection->banner=$path;
+        //$crop_protection->banners=json_encode($path);
+        $crop_protection->content=$this->content;
+        $crop_protection->audio=$this->audio;
+        $crop_protection->video=$this->video;
+        $crop_protection->save();
+        $this->success('Crop Protection Successfully Updated');
+    }
+    public function render()
+    {
+        $crops = \App\Models\FarmitraCrop::all();
+        $sub_crops=\App\Models\SubCrop::with('crop')->where('farmitra_crop_id',$this->crop_category)->get();
+        return view('livewire.edit-crop-protection',compact('crops','sub_crops'))->layout('layouts.app');
+    }
+}

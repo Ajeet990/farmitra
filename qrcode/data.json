@@ -1,0 +1,15 @@
+{
+    "qrcodes": [
+        {
+            "id": 1,
+            "book_name": "WONDER",
+            "publisher_name": "TESTPUBLISHER",
+            "book_id": 1,
+            "old_qrcode_value": "",
+            "downloads": null,
+            "status": "active",
+            "filename": "qrcode_1734092597.png",
+            "book_folder": "wonder"
+        }
+    ]
+}
