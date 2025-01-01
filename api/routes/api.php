@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\MandiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\FarmitraServicesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 //-
@@ -44,6 +45,9 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('crop-protection-list/{crop_id}', [ApiController::class,'getCropProtection']);
     Route::get('crop-protection-details/{crop_id}', [ApiController::class,'getCropProtectionDetails']);
     Route::get('next-crop-protection-list/{crop_protection_id}', [ApiController::class,'getNextCropProtectionList']);
+
+    //Crop diagnosis
+    Route::post('add-new-diagnosis', [FarmitraServicesController::class, 'addNewCropDiagnosis']);
     
         //post section
     Route::post('add-post-by-user', [ApiController::class,'addPostByUser']);
