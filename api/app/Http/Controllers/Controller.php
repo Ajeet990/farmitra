@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\ErrorLog;
 
 abstract class Controller
 {
@@ -19,5 +20,14 @@ abstract class Controller
 
         }
         return $specificImageUrl;
+    }
+
+    public function storeError($error)
+    {
+        ErrorLog::create([
+            'message' => $error->getMessage(),
+            'file' => $error->getFile(),
+            'line' => $error->getLine()
+        ]);
     }
 }

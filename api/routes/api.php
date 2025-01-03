@@ -48,6 +48,8 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
     //Crop diagnosis
     Route::post('add-new-diagnosis', [FarmitraServicesController::class, 'addNewCropDiagnosis']);
+    Route::get('get-crop-affected-part', [FarmitraServicesController::class, 'getCropAffectedPart']);
+    Route::get('get-experts', [FarmitraServicesController::class, 'getExperts']);
     
         //post section
     Route::post('add-post-by-user', [ApiController::class,'addPostByUser']);

@@ -7,8 +7,10 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CropDiagnosis;
+use App\Models\CropAffectedPart;
+use App\Models\UserExpertise;
 use App\Http\Requests\CropDiagnosisRequest;
-
+use App\Models\SubCrop;
 
 class FarmitraServicesController extends Controller
 {
@@ -36,6 +38,74 @@ class FarmitraServicesController extends Controller
             ]);
 
         } catch(Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getCropAffectedPart(Request $request)
+    {
+        try {
+            $rst = [
+                'status' => true,
+                'message' => 'No affected parts list found.',
+                'data' => []
+            ];
+            $activeStatus = config('constants.CROP_AFFECTED_STATUS.active');
+            $affectedPartsList = CropAffectedPart::where('status', $activeStatus)->get();
+            // dd($affectedPartsList);
+            if (!$affectedPartsList->isEmpty()) {
+                $rst = [
+                    'status' => true,
+                    'message' => 'Crop affected part list.',
+                    'data' => $affectedPartsList
+                ];
+            }
+
+            return response()->json($rst);
+        } catch(Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong',
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getExperts(Request $request)
+    {
+        try {
+            $crop_id = $request->query('crop_id') ?? 0;
+            $rst = [
+                'status' => true,
+                'message' => 'Invalid crop id.',
+                'data' => []
+            ];
+            $crop_detail = SubCrop::find($crop_id);
+            if (empty($crop_detail)) {
+                // throw new Exception("Crop with ID {$crop_id} not found.");
+                return response()->json($rst);
+            }
+            
+            $expertiseList = UserExpertise::with('user', 'crop')->where('crop_id', $crop_id)->get();
+            $rst = [
+                'status' => true,
+                'message' => 'No expert found for this crop.',
+                'data' => []
+            ];
+            if (!$expertiseList->isEmpty()) {
+                $rst = [
+                    'status' => true,
+                    'message' => 'Expert details.',
+                    'data' => $expertiseList
+                ];
+            }
+            return response()->json($rst);
+        } catch(Exception $e) {
+            $this->storeError($e);
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong',
